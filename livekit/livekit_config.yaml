@@ -1,0 +1,7 @@
+port: 6666
+rtc:
+  tcp_port: 8881
+  port_range_start: 50000
+  port_range_end: 50100
+keys:
+  livekit_app: c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22

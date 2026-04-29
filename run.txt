@@ -1,0 +1,27 @@
+Dispatch agent :
+lk dispatch create \
+  --url "ws://192.168.134.156:6666" \
+  --api-key "livekit_app" \
+  --api-secret "c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22" \
+  --room "test-room" \
+  --agent-name "my-agent"
+
+
+Running livekit server:
+livekit-server --config livekit/livekit_config.yaml
+
+Generate new livekit io token :
+lk token create \
+  --api-key "livekit_app" \
+  --api-secret "c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22" \
+  --join \
+  --room test-room \
+  --identity test-user \
+  --valid-for 24h
+
+Running the agent :
+    uv run src/agent_realtime.py dev
+
+
+Just in case ssl failed, using SSH -L :
+ssh -L 8000:127.0.0.1:8000 biznet-ai-dgx-spark-3@192.168.134.138

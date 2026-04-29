@@ -1,17 +1,12 @@
-Dispatch agent :
-lk dispatch create \
-  --url "ws://192.168.134.156:6666" \
-  --api-key "livekit_app" \
-  --api-secret "c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22" \
-  --room "test-room" \
-  --agent-name "my-agent"
-
-
-Running livekit server:
+1. Running livekit server:
 livekit-server --config livekit/livekit_config.yaml
 
-Generate new livekit io token :
+2. Running the agent :
+uv run src/agent_realtime.py dev
+
+3. Generate new livekit io token :
 lk token create \
+  --url "ws://192.168.134.190:6666" \
   --api-key "livekit_app" \
   --api-secret "c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22" \
   --join \
@@ -19,9 +14,26 @@ lk token create \
   --identity test-user \
   --valid-for 24h
 
-Running the agent :
-    uv run src/agent_realtime.py dev
+4. Create scure tunnel using ngrok:
+ngrok http 6666
+
+4. Connect to livekit.io :
+https://agents-playground.livekit.io/#cam=0&mic=1&screen=0&video=0&audio=1&chat=1&theme_color=cyan
+
+Using : wss://(NGROK_SECURE_TUNNEL_LINK)
+Token : (GENERATED IN STEP 3)
+
+And pressed Connect (Until appear Disconnect Button on top right)
+
+5. Dispatch agent :
+lk dispatch create \
+  --url "ws://192.168.134.190:6666" \
+  --api-key "livekit_app" \
+  --api-secret "c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22" \
+  --room "test-room" \
+  --agent-name "my-agent"
 
 
+NOTE : 
 Just in case ssl failed, using SSH -L :
 ssh -L 8000:127.0.0.1:8000 biznet-ai-dgx-spark-3@192.168.134.138

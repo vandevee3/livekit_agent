@@ -7,7 +7,7 @@ from livekit.plugins.turn_detector.multilingual import MultilingualModel
 from livekit import rtc
 import numpy as np
 
-load_dotenv(".env.local")
+load_dotenv("./environment/.env.local")
 
 
 class Assistant(Agent):

@@ -2,11 +2,13 @@
 livekit-server --config livekit/livekit_config.yaml
 
 2. Running the agent :
+uv run src/agent.py download-files && uv run src/agent.py dev
+# If want to use STS agent 
 uv run src/agent_realtime.py dev
 
 3. Generate new livekit io token :
 lk token create \
-  --url "ws://192.168.134.190:6666" \
+  --url "ws://192.168.134.156:6666" \
   --api-key "livekit_app" \
   --api-secret "c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22" \
   --join \
@@ -27,7 +29,7 @@ And pressed Connect (Until appear Disconnect Button on top right)
 
 5. Dispatch agent :
 lk dispatch create \
-  --url "ws://192.168.134.190:6666" \
+  --url "ws://192.168.134.156:6666" \
   --api-key "livekit_app" \
   --api-secret "c6bf5ea9414804471a6d0dbdac397118633348ed9999d969b2a34f0240dfaf22" \
   --room "test-room" \

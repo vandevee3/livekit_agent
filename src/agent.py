@@ -31,7 +31,7 @@ TTS_BASE_URL  = "http://192.168.134.138:8080"
 TTS_VOICE     = "cahya"          # maps to default in your server
 TTS_FORMAT    = "wav"
 # MIN_CHUNK_CHARS = 60          # ignore chunks shorter than this
-MIN_CHUNK_WORDS = 100
+MIN_CHUNK_WORDS = 50
 
 
 # =========================================================
@@ -117,29 +117,7 @@ class Assistant(Agent):
     def __init__(self, delimiters: str = r'[.!?\n]') -> None:
         super().__init__(
             instructions="""
-            Anda adalah asisten virtual yang akan membantu pelanggan anda.
-
-            TENTANG BIZNET:
-            - Biznet adalah penyedia layanan internet serat optik terbesar di Indonesia
-            - Produk: Biznet Home (perumahan), Biznet Metronet (bisnis), Biznet Networks
-            - Kecepatan internet: 50Mbps, 100Mbps, 300Mbps, 500Mbps, 1Gbps
-            - Jangkauan: Jawa, Bali, Sumatra
-            - Dukungan: 021-5714 2888
-            - Email: support@biznet.id
-            - Website: biznet.id
-
-            PRODUK:
-            - Biznet Home 50Mbps: 250.000/bulan
-            - Biznet Home 100Mbps: 385.000/bulan
-            - Biznet Home 300Mbps: 550.000/bulan
-            - Biznet Home 500Mbps: 750.000/bulan
-            - Biznet Home 1Gbps: 1.100.000/bulan
-
-            Jawaban harus:
-            - Singkat
-            - Jelas
-            - Natural
-            - Maksimal 2 kalimat
+            Anda adalah asisten virtual Biznet yang akan membantu pelanggan anda
             """,
         )
         self.delimiter_pattern = delimiters

@@ -28,10 +28,13 @@ load_dotenv("./environment/.env.local")
 # CONFIG
 # =========================================================
 TTS_BASE_URL  = "http://192.168.134.138:8080"
+STT_BASE_URL  = "http://192.168.134.138:6666"
 TTS_VOICE     = "cahya"          # maps to default in your server
 TTS_FORMAT    = "wav"
 # MIN_CHUNK_CHARS = 60          # ignore chunks shorter than this
 MIN_CHUNK_WORDS = 25
+INPUT_SAMPLE_RATE = 16000
+OUTPUT_SAMPLE_RATE = 48000
 
 
 # =========================================================
@@ -63,7 +66,7 @@ async def _http_tts_chunk(text: str) -> bytes | None:
 
 def _wav_bytes_to_frames(
     wav_bytes: bytes,
-    target_sample_rate: int = 48000,
+    target_sample_rate: int = OUTPUT_SAMPLE_RATE,
 ) -> list[rtc.AudioFrame]:
     """
     Decode WAV bytes → list of rtc.AudioFrame (int16, mono).
@@ -327,7 +330,7 @@ async def my_agent(ctx: agents.JobContext):
         # =================================================
         stt=openai.STT(
             model="qwen3-asr",
-            base_url="http://192.168.134.138:6666/v1",
+            base_url=f"{STT_BASE_URL}/v1",
             api_key="empty",
             language="id",
         ),
@@ -343,7 +346,7 @@ async def my_agent(ctx: agents.JobContext):
             # model="tts-1",
             model="openbmb/VoxCPM2",
             # base_url="http://192.168.134.138:8080/v1",
-            base_url=f"http://{TTS_BASE_URL}/v1",
+            base_url=f"{TTS_BASE_URL}/v1",
             api_key="empty",
             response_format="wav",
             # voice= 'cahya'
@@ -354,7 +357,7 @@ async def my_agent(ctx: agents.JobContext):
         # =================================================
         vad=silero.VAD.load(
             activation_threshold=0.3,
-            sample_rate= 16000,
+            sample_rate= INPUT_SAMPLE_RATE,
             min_speech_duration=0.25,
             min_silence_duration=0.45,
             padding_duration=0.15,
@@ -381,11 +384,11 @@ async def my_agent(ctx: agents.JobContext):
         room_options=room_io.RoomOptions(
             audio_input=room_io.AudioInputOptions(
                 noise_cancellation=dtln.noise_suppression(
-                    strength=0.50,
+                    strength=0.50
                 )
             ),
             audio_output=room_io.AudioOutputOptions(
-                sample_rate=48000
+                sample_rate= OUTPUT_SAMPLE_RATE
             ),
         ),
     )

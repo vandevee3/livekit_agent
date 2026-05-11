@@ -385,7 +385,8 @@ async def my_agent(ctx: agents.JobContext):
             audio_input=room_io.AudioInputOptions(
                 noise_cancellation=dtln.noise_suppression(
                     strength=0.50
-                )
+                ),
+                sample_rate= INPUT_SAMPLE_RATE
             ),
             audio_output=room_io.AudioOutputOptions(
                 sample_rate= OUTPUT_SAMPLE_RATE

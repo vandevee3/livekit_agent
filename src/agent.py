@@ -31,7 +31,7 @@ TTS_BASE_URL  = "http://192.168.134.138:8080"
 TTS_VOICE     = "cahya"          # maps to default in your server
 TTS_FORMAT    = "wav"
 # MIN_CHUNK_CHARS = 60          # ignore chunks shorter than this
-MIN_CHUNK_WORDS = 50
+MIN_CHUNK_WORDS = 25
 
 
 # =========================================================
@@ -261,18 +261,20 @@ class Assistant(Agent):
         turn_ctx,
         new_message,
     ):
-        # content = new_message.content
-        content = """Baik, saya akan sebutkan nilai-nilai Biznet singkat ya.\n
-            Hasrat Terpadu: bekerja dengan sepenuh hasrat dan suka cita untuk menciptakan produk inovatif dan layanan terpadu.\n
-            Layanan Sepenuh Hati: melayani pelanggan dengan sepenuh hati untuk memenuhi kebutuhan layanan yang cepat, terpercaya, dan terjangkau.\n
-            Semangat untuk Maju: bekerja cerdas dan belajar dari tantangan agar maju dan berkembang bersama.\n
-            Mau saya jelaskan salah satu nilai lebih detail atau ada pertanyaan lain?
-            Baik, saya akan sebutkan nilai-nilai Biznet singkat ya.\n
-            Hasrat Terpadu: bekerja dengan sepenuh hasrat dan suka cita untuk menciptakan produk inovatif dan layanan terpadu.\n
-            Layanan Sepenuh Hati: melayani pelanggan dengan sepenuh hati untuk memenuhi kebutuhan layanan yang cepat, terpercaya, dan terjangkau.\n
-            Semangat untuk Maju: bekerja cerdas dan belajar dari tantangan agar maju dan berkembang bersama.\n
-            Mau saya jelaskan salah satu nilai lebih detail atau ada pertanyaan lain?
-        """
+        content = new_message.content
+        # content = """
+        # Baik, saya akan sebutkan nilai-nilai Biznet singkat ya.
+        # \n\n1. Hasrat Terpadu: bekerja dengan sepenuh hasrat dan suka cita untuk menciptakan produk inovatif dan layanan terpadu.  
+        # \n2. Layanan Sepenuh Hati: melayani pelanggan dengan sepenuh hati untuk memenuhi kebutuhan layanan yang cepat, terpercaya, dan terjangkau.  
+        # \n3. Semangat untuk Maju: bekerja cerdas dan belajar dari tantangan agar maju dan berkembang bersama.
+        # \n\nMau saya jelaskan salah satu nilai lebih detail atau ada pertanyaan lain?
+
+        # Baik, saya akan sebutkan nilai-nilai Biznet singkat ya.
+        # \n\n1. Hasrat Terpadu: bekerja dengan sepenuh hasrat dan suka cita untuk menciptakan produk inovatif dan layanan terpadu.  
+        # \n2. Layanan Sepenuh Hati: melayani pelanggan dengan sepenuh hati untuk memenuhi kebutuhan layanan yang cepat, terpercaya, dan terjangkau.  
+        # \n3. Semangat untuk Maju: bekerja cerdas dan belajar dari tantangan agar maju dan berkembang bersama.
+        # \n\nMau saya jelaskan salah satu nilai lebih detail atau ada pertanyaan lain?
+        # """
 
         if isinstance(content, str):
             user_text = content
@@ -338,10 +340,13 @@ async def my_agent(ctx: agents.JobContext):
         # It IS still used by session.say() — so keep it pointed
         # at your server; short say() strings are fine for it.
         tts=openai.TTS(
-            model="tts-1",
-            base_url="http://192.168.134.138:8080/v1",
+            # model="tts-1",
+            model="openbmb/VoxCPM2",
+            # base_url="http://192.168.134.138:8080/v1",
+            base_url=f"http://{TTS_BASE_URL}/v1",
             api_key="empty",
             response_format="wav",
+            # voice= 'cahya'
         ),
 
         # =================================================
@@ -349,6 +354,7 @@ async def my_agent(ctx: agents.JobContext):
         # =================================================
         vad=silero.VAD.load(
             activation_threshold=0.3,
+            sample_rate= 16000,
             min_speech_duration=0.25,
             min_silence_duration=0.45,
             padding_duration=0.15,

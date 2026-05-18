@@ -31,8 +31,8 @@ TTS_BASE_URL  = "http://192.168.134.138:8080"
 STT_BASE_URL  = "http://192.168.134.138:6666"
 TTS_VOICE     = "cahya"          # maps to default in your server
 TTS_FORMAT    = "wav"
-# MIN_CHUNK_CHARS = 60          # ignore chunks shorter than this
-MIN_CHUNK_WORDS = 25
+MIN_CHUNK_WORDS = 200          # ignore chunks shorter than this
+# MIN_CHUNK_WORDS = 25
 INPUT_SAMPLE_RATE = 16000
 OUTPUT_SAMPLE_RATE = 48000
 
@@ -266,17 +266,19 @@ class Assistant(Agent):
     ):
         content = new_message.content
         # content = """
-        # Baik, saya akan sebutkan nilai-nilai Biznet singkat ya.
-        # \n\n1. Hasrat Terpadu: bekerja dengan sepenuh hasrat dan suka cita untuk menciptakan produk inovatif dan layanan terpadu.  
-        # \n2. Layanan Sepenuh Hati: melayani pelanggan dengan sepenuh hati untuk memenuhi kebutuhan layanan yang cepat, terpercaya, dan terjangkau.  
-        # \n3. Semangat untuk Maju: bekerja cerdas dan belajar dari tantangan agar maju dan berkembang bersama.
-        # \n\nMau saya jelaskan salah satu nilai lebih detail atau ada pertanyaan lain?
+        # Baik, saya jelaskan semua poin utama paket Biznet Home di Denpasar, Bali secara singkat ya:
 
-        # Baik, saya akan sebutkan nilai-nilai Biznet singkat ya.
-        # \n\n1. Hasrat Terpadu: bekerja dengan sepenuh hasrat dan suka cita untuk menciptakan produk inovatif dan layanan terpadu.  
-        # \n2. Layanan Sepenuh Hati: melayani pelanggan dengan sepenuh hati untuk memenuhi kebutuhan layanan yang cepat, terpercaya, dan terjangkau.  
-        # \n3. Semangat untuk Maju: bekerja cerdas dan belajar dari tantangan agar maju dan berkembang bersama.
-        # \n\nMau saya jelaskan salah satu nilai lebih detail atau ada pertanyaan lain?
+        # HOME 0D: kecepatan seratus Mbps, kuota utama seribu lima ratus GB, bonus tiga ratus tujuh puluh lima GB, ideal untuk satu sampai tiga perangkat, setelah FUP turun ke lima Mbps, tipe koneksi dynamic private, harga dua ratus lima puluh ribu rupiah per bulan (sebelum pajak).
+        # HOME 1D: kecepatan tiga ratus Mbps, kuota utama empat ribu GB, bonus seribu GB, ideal untuk satu sampai sepuluh perangkat, setelah FUP turun ke lima belas Mbps, tipe dynamic private, harga tiga ratus tujuh puluh lima ribu rupiah per bulan (sebelum pajak).
+        # HOME 2D: kecepatan empat ratus Mbps, kuota utama delapan ribu GB, bonus dua ribu GB, ideal untuk sebelas sampai dua puluh perangkat, setelah FUP turun ke dua puluh lima Mbps, tipe dynamic private, harga lima ratus tujuh puluh lima ribu rupiah per bulan (sebelum pajak).
+        # GAMERS 3D: kecepatan lima ratus Mbps, kuota utama sepuluh ribu GB, bonus dua ribu lima ratus GB, ideal untuk dua puluh satu sampai empat puluh perangkat, setelah FUP turun ke tiga puluh Mbps, tipe dynamic public, harga tujuh ratus ribu rupiah per bulan (sebelum pajak).
+        # Tambahan layanan dan info singkat:
+
+        # Biznet IPTV tersedia dengan set top box, biaya perangkat dan langganan terpisah.
+        # Mesh WiFi TP‑Link Deco tersedia sebagai add-on untuk menghilangkan dead zone.
+        # Pelanggan bisa sewa atau beli modem; ada biaya instalasi awal.
+        # Semua harga belum termasuk pajak dan bisa berubah sesuai promo.
+        # Mau saya cek ketersediaan pemasangan di alamat Raja Pasar, Denpasar sekarang atau bantu daftar pemasangan?
         # """
 
         if isinstance(content, str):
@@ -358,9 +360,9 @@ async def my_agent(ctx: agents.JobContext):
         vad=silero.VAD.load(
             activation_threshold=0.3,
             sample_rate= INPUT_SAMPLE_RATE,
-            min_speech_duration=0.25,
+            min_speech_duration=0.15,
             min_silence_duration=0.45,
-            padding_duration=0.15,
+            padding_duration=0.05,
         ),
 
         # =================================================
